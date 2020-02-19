@@ -8,46 +8,47 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const config = require("./config/DB");
 const userRoutes = require("./routes/userRoutes");
+const tokenRoutes = require("./routes/tokenRoutes");
 const flash = require("connect-flash");
 const session = require("express-session");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-//const swaggerDocument = require("./swagger.json");
+const swaggerDocument = require("./config/swagger.json");
 
-const swaggerDefinition = {
-  info: {
-    title: "My Node Swagger API",
-    version: "1.0.0",
-    description: "Endpoints to test"
-  },
-  host: "localhost:4000",
-  basePath: "/",
-  securityDefinitions: {
-    bearerAuth: {
-      type: "apiKey",
-      name: "Authorization",
-      scheme: "bearer",
-      in: "header"
-    }
-  }
-};
+// const swaggerDefinition = {
+//   info: {
+//     title: "My Node Swagger API",
+//     version: "1.0.0",
+//     description: "Endpoints to test"
+//   },
+//   host: "localhost:4000",
+//   basePath: "/",
+//   securityDefinitions: {
+//     bearerAuth: {
+//       type: "apiKey",
+//       name: "Authorization",
+//       scheme: "bearer",
+//       in: "header"
+//     }
+//   }
+// };
 
-const options = {
-  swaggerDefinition,
-  apis: ["./routes/userRoutes.js"],
-  explorer: true
-};
+// const options = {
+//   swaggerDefinition,
+//   apis: ["./routes/userRoutes.js"],
+//   explorer: true
+// };
 
-const swaggerSpec = swaggerJSDoc(options);
+// const swaggerSpec = swaggerJSDoc(options);
 
-app.get("/swagger.json", function(req, res) {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerSpec);
-});
+// app.get("/swagger.json", function(req, res) {
+//   res.setHeader("Content-Type", "application/json");
+//   res.send(swaggerSpec);
+// });
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // const mongoURI = "mongodb://localhost:27017/nodeapi";
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 mongoose
   .connect(config.DB, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
@@ -70,6 +71,7 @@ app.use(
 );
 
 app.use("/user", userRoutes);
+app.use("/token", tokenRoutes);
 
 app.listen(PORT, function() {
   console.log("Server is running on Port:", PORT);
