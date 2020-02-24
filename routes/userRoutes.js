@@ -176,6 +176,7 @@ userRoutes
       });
   });
 
+// userRoutes.route("/reset").get({});
 // var getOneUser = function (req, res) {
 //   res.json(req.user);
 // };

@@ -36,6 +36,13 @@ let User = new Schema(
     date: {
       type: String,
       default: currentDate.toISOString()
+    },
+    otp: {
+      type: String
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false
     }
   },
   {
