@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 const saltRounds = 10;
-
+var currentDate = new Date();
 // Define collection and schema for Business
 let User = new Schema(
   {
@@ -32,6 +32,10 @@ let User = new Schema(
     address: {
       type: String,
       required: true
+    },
+    date: {
+      type: String,
+      default: currentDate.toISOString()
     }
   },
   {

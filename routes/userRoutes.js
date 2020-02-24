@@ -10,7 +10,7 @@ const verifyToken = require("../config/verifyToken");
 let User = require("../models/User");
 userRoutes.use(cors());
 
-process.env.SECRET_KEY = "secret";
+process.env.SECRET_KEY = "secretInJs";
 
 userRoutes.route("/signup").post(function(req, res) {
   let { fullname, username, password, phone, email, address } = req.body;
@@ -49,26 +49,27 @@ userRoutes.route("/login").post(function(req, res) {
     email: req.body.email
   })
     .then(user => {
-      if (user) {
-        console.log(user);
-        if (bcrypt.compare(req.body.password, user.password)) {
-          // Passwords match
-          const payload = {
-            _id: user._id,
-            fullname: user.fullname,
-            username: user.username,
-            email: user.email
-          };
-          let token = jwt.sign(payload, process.env.SECRET_KEY, {
-            expiresIn: 1440
-          });
-          res.send(token);
-        } else {
-          // Passwords don't match
-          res.json({ error: "Password Mismatch" });
-        }
-      } else {
+      if (!user) {
         res.json({ error: "User does not exist" });
+      } else {
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+          if (result == true) {
+            // Passwords match
+            const payload = {
+              _id: user._id,
+              fullname: user.fullname,
+              username: user.username,
+              email: user.email
+            };
+            let token = jwt.sign(payload, process.env.SECRET_KEY, {
+              expiresIn: 1440
+            });
+            res.send(token);
+          } else {
+            // Passwords don't match
+            res.json({ error: "Password Mismatch" });
+          }
+        });
       }
     })
     .catch(err => {
@@ -116,10 +117,69 @@ userRoutes.route("/getAllUsers ").get(verifyToken, (req, res, next) => {
     }
   });
 });
-var getOneUser = function (req, res) {
-  res.json(req.user);
-};
-userRoutes.route('/:userId').get(getOneUser);
+
+//change password
+
+userRoutes
+  .route("/changePassword")
+  .post(verifyToken, async (req, res, next) => {
+    console.log(req.body);
+    let oldPwd = req.body.oldpassword;
+    let newPwd = req.body.newpassword;
+    if (!oldPwd && !newPwd) {
+      res.statusCode = 400;
+      res.data = {
+        status: false,
+        error: "Invalid Parameters"
+      };
+    }
+    User.findOne({
+      _id: req.userId
+    })
+      .then(user => {
+        if (!user) {
+          res.json({ error: "User does not exist" });
+        } else {
+          //compare password not working
+          bcrypt.compare(oldPwd, user.password, function(err, result) {
+            console.log(result);
+            if (result != true) {
+              res.statusCode = 400;
+              res.send("Old Password doesn't match");
+            } else {
+              user.password = newPwd;
+              bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(user.password, salt, (err, hash) => {
+                  if (err) throw err;
+                  user.password = hash;
+                  User.findOneAndUpdate(
+                    { email: user.email },
+                    {
+                      $set: {
+                        password: hash
+                      }
+                    },
+                    { upsert: true, new: true }
+                  );
+                });
+                user.save();
+              });
+              user.save();
+              res.send("Password updated successfully");
+              next();
+            }
+          });
+        }
+      })
+      .catch(err => {
+        res.send("error: " + err);
+      });
+  });
+
+// var getOneUser = function (req, res) {
+//   res.json(req.user);
+// };
+// userRoutes.route('/:userId').get(getOneUser);
 
 // add the middleware function
 userRoutes.use(function(user, req, res, next) {

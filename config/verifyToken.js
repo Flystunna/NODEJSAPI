@@ -1,5 +1,5 @@
 var jwt = require("jsonwebtoken");
-process.env.SECRET_KEY = "secret";
+process.env.SECRET_KEY = "secretInJs";
 
 function verifyToken(req, res, next) {
   var token = req.headers["authorization"];
