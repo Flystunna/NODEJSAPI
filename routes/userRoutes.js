@@ -6,6 +6,9 @@ const bcrypt = require("bcryptjs");
 const async = require("async");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../config/verifyToken");
+const sgMail = require("@sendgrid/mail");
+require("dotenv").config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 let User = require("../models/User");
 userRoutes.use(cors());
@@ -44,39 +47,6 @@ userRoutes.route("/signup").post(function(req, res) {
   }
 });
 
-userRoutes.route("/login").post(function(req, res) {
-  User.findOne({
-    email: req.body.email
-  })
-    .then(user => {
-      if (!user) {
-        res.json({ error: "User does not exist" });
-      } else {
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
-          if (result == true) {
-            // Passwords match
-            const payload = {
-              _id: user._id,
-              fullname: user.fullname,
-              username: user.username,
-              email: user.email
-            };
-            let token = jwt.sign(payload, process.env.SECRET_KEY, {
-              expiresIn: 1440
-            });
-            res.send(token);
-          } else {
-            // Passwords don't match
-            res.json({ error: "Password Mismatch" });
-          }
-        });
-      }
-    })
-    .catch(err => {
-      res.send("error: " + err);
-    });
-});
-
 userRoutes.route("/getprofile").get(function(req, res) {
   var decoded = jwt.verify(
     req.headers["authorization"],
@@ -103,7 +73,6 @@ userRoutes.route("/me").get(verifyToken, function(req, res, next) {
     if (err)
       return res.status(500).send("There was a problem finding the user.");
     if (!user) return res.status(404).send("No user found.");
-
     res.status(200).send(user);
   });
 });
@@ -175,8 +144,66 @@ userRoutes
         res.send("error: " + err);
       });
   });
+userRoutes.get("/reset/otp", (req, res, next) => {
+  res.json("Otp");
+});
+userRoutes.post("/reset", (req, res, next) => {
+  let email = req.body.email;
+  if (!email) {
+    res.statusCode = 400;
+    res.data = {
+      status: false,
+      error: "Invalid Parameters"
+    };
+  }
+  User.findOne({ email: email }).then(user => {
+    if (!user) {
+      res.json({ error: "Email does not exist" });
+    }
+    //randomly generate 6 digits pins and send email
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    console.log(otp);
+    user.otp = otp;
+    user.save();
+    console.log(user);
+    async.waterfall(
+      [
+        function(user, done) {
+          var msg = {
+            to: email,
+            from: "flystunna1@gmail.com",
+            subject: "Password Reset OTP",
+            text:
+              "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+              "Your Password Reset OTP is: " +
+              otp +
+              " \n\n" +
+              "Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+              "http://" +
+              req.headers.host +
+              "/user/reset/otp" +
+              "\n\n" +
+              "If you did not request this, please ignore this email and your password will remain unchanged.\n"
+          };
+          sgMail.send(msg, err => {
+            res.json(
+              "An e-mail has been sent to " +
+                req.body.email +
+                " with further instructions."
+            );
+            if (err) res.json(err);
+            done(err, "done");
+          });
+        }
+      ],
+      err => {
+        if (err) return next(err);
+        res.json(err);
+      }
+    );
+  });
+});
 
-// userRoutes.route("/reset").get({});
 // var getOneUser = function (req, res) {
 //   res.json(req.user);
 // };
@@ -187,3 +214,38 @@ userRoutes.use(function(user, req, res, next) {
   res.status(200).send(user);
 });
 module.exports = userRoutes;
+
+// userRoutes.route("/login").post(function(req, res) {
+//   User.findOne({
+//     email: req.body.email
+//   })
+//     .then(user => {
+//       if (!user) {
+//         res.json({ error: "User does not exist" });
+//       }
+//       const password = req.body.password;
+//       bcrypt.compare(password, user.password, (err, isMatch) => {
+//         if (err) throw err;
+//         console.log(isMatch);
+//         if (isMatch) {
+//           // Passwords match
+//           const payload = {
+//             _id: user._id,
+//             fullname: user.fullname,
+//             username: user.username,
+//             email: user.email
+//           };
+//           let token = jwt.sign(payload, process.env.SECRET_KEY, {
+//             expiresIn: 1440
+//           });
+//           res.send(token);
+//         } else {
+//           // Passwords don't match
+//           res.json({ error: "Password Mismatch" });
+//         }
+//       });
+//     })
+//     .catch(err => {
+//       res.send("error: " + err);
+//     });
+// });
