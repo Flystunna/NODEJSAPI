@@ -18,23 +18,25 @@ tokenRoutes.route("/GetToken").post(function(req, res) {
   })
     .then(user => {
       if (user) {
-        console.log(user);
-        if (bcrypt.compare(req.body.password, user.password)) {
-          // Passwords match
-          const payload = {
-            _id: user._id,
-            fullname: user.fullname,
-            username: user.username,
-            email: user.email
-          };
-          let token = jwt.sign(payload, process.env.SECRET_KEY, {
-            expiresIn: 1440
-          });
-          res.send(token);
-        } else {
-          // Passwords don't match
-          res.json({ error: "Password Mismatch" });
-        }
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+          console.log(result);
+          if (result) {
+            // Passwords match
+            const payload = {
+              _id: user._id,
+              fullname: user.fullname,
+              username: user.username,
+              email: user.email
+            };
+            let token = jwt.sign(payload, process.env.SECRET_KEY, {
+              expiresIn: 1440
+            });
+            res.send(token);
+          } else {
+            // Passwords don't match
+            res.json({ error: "Password Mismatch" });
+          }
+        });
       } else {
         res.json({ error: "User does not exist" });
       }

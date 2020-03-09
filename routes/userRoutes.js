@@ -27,21 +27,12 @@ userRoutes.route("/signup").post(function(req, res) {
         console.log("Email is already registered");
       } else {
         let user = new User(req.body);
-
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-            user
-              .save()
-              .then(user => {
-                res.json({
-                  user
-                });
-              })
-              .catch(err => console.log(err));
-          });
-        });
+        user
+          .save()
+          .then(user => {
+            res.json({ user });
+          })
+          .catch(err => console.log(err));
       }
     });
   }
@@ -117,23 +108,12 @@ userRoutes
               res.send("Old Password doesn't match");
             } else {
               user.password = newPwd;
-              bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(user.password, salt, (err, hash) => {
-                  if (err) throw err;
-                  user.password = hash;
-                  User.findOneAndUpdate(
-                    { email: user.email },
-                    {
-                      $set: {
-                        password: hash
-                      }
-                    },
-                    { upsert: true, new: true }
-                  );
-                });
-                user.save();
-              });
-              user.save();
+              user
+                .save()
+                .then(user => {
+                  res.json({ user });
+                })
+                .catch(err => console.log(err));
               res.send("Password updated successfully");
               next();
             }
@@ -145,8 +125,53 @@ userRoutes
       });
   });
 userRoutes.get("/reset/otp", (req, res, next) => {
-  res.json("Otp");
+  let email = req.body.email;
+  let otp = req.body.otp;
+  let password = req.body.password;
+  if (!email || !otp || !password) {
+    res.statusCode = 400;
+    res.data = {
+      status: false,
+      error: "Invalid Parameters"
+    };
+  }
+  User.findOne({ email: email }).then(user => {
+    if (!user) {
+      res.json({ error: "Email does not exist" });
+    }
+    if (user.otp != otp) {
+      res.json({ error: "Invalid OTP" });
+    }
+    user.otp = null;
+    user.password = password;
+    user.save();
+    async.waterfall(
+      [
+        function(user, done) {
+          var msg = {
+            to: user.email,
+            from: "flystunna1@gmail.com",
+            subject: "Your password has been changed",
+            text:
+              "Hello,\n\n" +
+              "This is a confirmation that the password for your account " +
+              user.email +
+              " has just been changed.\n"
+          };
+          sgMail.send(msg, err => {
+            res.json("Success! Your password has been changed.");
+            done(err, "done");
+          });
+        }
+      ],
+      err => {
+        if (err) return next(err);
+        res.json(err);
+      }
+    );
+  });
 });
+
 userRoutes.post("/reset", (req, res, next) => {
   let email = req.body.email;
   if (!email) {
@@ -162,10 +187,8 @@ userRoutes.post("/reset", (req, res, next) => {
     }
     //randomly generate 6 digits pins and send email
     const otp = Math.floor(100000 + Math.random() * 900000);
-    console.log(otp);
     user.otp = otp;
     user.save();
-    console.log(user);
     async.waterfall(
       [
         function(user, done) {

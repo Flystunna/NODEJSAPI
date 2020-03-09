@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 const bodyParser = require("body-parser");
-const PORT = 4000;
+const PORT = 8080;
 const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose");
@@ -14,7 +14,6 @@ const session = require("express-session");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./config/swagger.json");
-
 
 // const swaggerDefinition = {
 //   info: {

@@ -17,7 +17,8 @@ let User = new Schema(
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      maxLength: 100
     },
     phone: {
       type: String,
