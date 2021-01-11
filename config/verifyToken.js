@@ -1,11 +1,13 @@
 var jwt = require("jsonwebtoken");
-process.env.SECRET_KEY = "secretInJs";
+require('dotenv').config();
+const JWTKey = process.env.JWTKey
 
 function verifyToken(req, res, next) {
-  var token = req.headers["authorization"];
-  if (!token)
-    return res.status(403).send({ auth: false, message: "No token provided." });
-  jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
+  const authHeader = req.headers.authorization
+  if (!authHeader)
+    return res.status(401).send({ auth: false, message: "Unauthorized." });
+  let token = authHeader.split(' ')[1];
+  jwt.verify(token, JWTKey, function (err, decoded) {
     if (err) {
       console.log(err);
       return res

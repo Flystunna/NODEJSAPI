@@ -7,15 +7,17 @@ const async = require("async");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../config/verifyToken");
 const sgMail = require("@sendgrid/mail");
+const successLogger = require('../utils/logger').successLogger;
+const errorLogger = require('../utils/logger').errorLogger;
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 let User = require("../models/User");
 userRoutes.use(cors());
 
-process.env.SECRET_KEY = "secretInJs";
+const JWTKey = process.env.JWTKey
 
-userRoutes.route("/signup").post(function(req, res) {
+userRoutes.route("/signup").post(function (req, res) {
   let { fullname, username, password, phone, email, address } = req.body;
   let errors = [];
   if (!fullname || !username || !password || !phone || !email || !address) {
@@ -30,24 +32,29 @@ userRoutes.route("/signup").post(function(req, res) {
         user
           .save()
           .then(user => {
+            successLogger.info(`User sign up sucessful ${user.email} ${req.originalUrl} - ${req.method} - ${req.ip}`);
             res.json({ user });
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            errorLogger.error(err)
+            console.log(err)
+          });
       }
     });
   }
 });
 
-userRoutes.route("/getprofile").get(function(req, res) {
-  var decoded = jwt.verify(
-    req.headers["authorization"],
-    process.env.SECRET_KEY
-  );
-
+userRoutes.route("/getprofile").get(verifyToken, function (req, res) {
+  const authHeader = req.headers.authorization;
+  let token = authHeader.split(' ')[1];
+  var decoded = jwt.verify(token, JWTKey);
+  let UserId = '';
+  findIdByToken(token, function (result) {
+    UserId = result._id;
+  });
   User.findOne({
-    _id: decoded._id
-  })
-    .then(user => {
+    _id: UserId
+  }).then(user => {
       if (user) {
         res.json(user);
       } else {
@@ -55,12 +62,13 @@ userRoutes.route("/getprofile").get(function(req, res) {
       }
     })
     .catch(err => {
+      errorLogger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       res.send("error: " + err);
     });
 });
 
-userRoutes.route("/me").get(verifyToken, function(req, res, next) {
-  User.findById(req.userId, { password: 0 }, function(err, user) {
+userRoutes.route("/me").get(verifyToken, function (req, res, next) {
+  User.findById(req.userId, { password: 0 }, function (err, user) {
     if (err)
       return res.status(500).send("There was a problem finding the user.");
     if (!user) return res.status(404).send("No user found.");
@@ -69,7 +77,7 @@ userRoutes.route("/me").get(verifyToken, function(req, res, next) {
 });
 
 userRoutes.route("/getAllUsers ").get(verifyToken, (req, res, next) => {
-  User.find(function(err, users) {
+  User.find(function (err, users) {
     if (err) {
       next(err);
     } else {
@@ -101,7 +109,7 @@ userRoutes
           res.json({ error: "User does not exist" });
         } else {
           //compare password not working
-          bcrypt.compare(oldPwd, user.password, function(err, result) {
+          bcrypt.compare(oldPwd, user.password, function (err, result) {
             console.log(result);
             if (result != true) {
               res.statusCode = 400;
@@ -147,7 +155,7 @@ userRoutes.get("/reset/otp", (req, res, next) => {
     user.save();
     async.waterfall(
       [
-        function(user, done) {
+        function (user, done) {
           var msg = {
             to: user.email,
             from: "flystunna1@gmail.com",
@@ -191,7 +199,7 @@ userRoutes.post("/reset", (req, res, next) => {
     user.save();
     async.waterfall(
       [
-        function(user, done) {
+        function (user, done) {
           var msg = {
             to: email,
             from: "flystunna1@gmail.com",
@@ -211,8 +219,8 @@ userRoutes.post("/reset", (req, res, next) => {
           sgMail.send(msg, err => {
             res.json(
               "An e-mail has been sent to " +
-                req.body.email +
-                " with further instructions."
+              req.body.email +
+              " with further instructions."
             );
             if (err) res.json(err);
             done(err, "done");
@@ -227,13 +235,26 @@ userRoutes.post("/reset", (req, res, next) => {
   });
 });
 
+
+function findIdByToken(token, fn){
+  jwt.verify(token, JWTKey, function (err, decoded) {
+    if (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .send({ auth: false, message: "Failed to authenticate token." });
+    }
+    fn(decoded);
+  });
+}
+
 // var getOneUser = function (req, res) {
 //   res.json(req.user);
 // };
 // userRoutes.route('/:userId').get(getOneUser);
 
 // add the middleware function
-userRoutes.use(function(user, req, res, next) {
+userRoutes.use(function (user, req, res, next) {
   res.status(200).send(user);
 });
 module.exports = userRoutes;

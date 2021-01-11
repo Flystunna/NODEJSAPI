@@ -5,14 +5,14 @@ const tokenRoutes = express.Router();
 const bcrypt = require("bcryptjs");
 const async = require("async");
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../config/verifyToken");
-
+const moment = require("moment");
 let User = require("../models/User");
+require('dotenv').config();
+const JWTKey = process.env.JWTKey
 tokenRoutes.use(cors());
 
-process.env.SECRET_KEY = "secret";
 
-tokenRoutes.route("/GetToken").post(function(req, res) {
+tokenRoutes.route("/Login").post(function(req, res) {
   User.findOne({
     email: req.body.email
   })
@@ -28,17 +28,18 @@ tokenRoutes.route("/GetToken").post(function(req, res) {
               username: user.username,
               email: user.email
             };
-            let token = jwt.sign(payload, process.env.SECRET_KEY, {
+            let token = jwt.sign(payload, JWTKey, {
               expiresIn: 1440
             });
-            res.send(token);
+            let date = new Date();
+            res.json({token: token, expiresIn: moment(date).add(1440, 'seconds').format("YYYY-MM-DD HH:mm:ss")});
           } else {
             // Passwords don't match
             res.json({ error: "Password Mismatch" });
           }
         });
       } else {
-        res.json({ error: "User does not exist" });
+        res.json({ error: "User credentials incorrect" });
       }
     })
     .catch(err => {

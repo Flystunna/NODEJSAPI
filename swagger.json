@@ -1,5 +1,5 @@
 {
-  "title": "Invoice Builder API Documentation",
+  "title": "Node API Documentation",
   "description": "Swagger API Documentation for User",
   "license": {
     "name": "MIT",
@@ -7,7 +7,7 @@
   },
   "swagger": "2.0",
   "version": "1.0.0",
-  "host": "localhost:4000",
+  "host": "localhost:7000",
   "basePath": "/",
   "tags": [
     {
@@ -23,7 +23,7 @@
       "post": {
         "tags": ["User"],
         "summary": "Create new User",
-        "description": "Create new Invoice in the System",
+        "description": "Create new user in the System",
         "parameters": [
           {
             "name": "user",
@@ -33,13 +33,6 @@
             "schema": {
               "$ref": "#definitions/User"
             }
-          },
-          {
-            "name": "authorization",
-            "description": "Access token to authorize the user",
-            "in": "header",
-            "type": "string",
-            "required": true
           }
         ],
         "produces": ["application/json"],
@@ -53,19 +46,19 @@
         }
       }
     },
-    "/token/GetToken": {
+    "/auth/login": {
       "post": {
-        "tags": ["Token"],
+        "tags": ["Auth"],
         "summary": "Generate and Refresh Token",
         "description": "Generate Token",
         "parameters": [
           {
-            "name": "token",
+            "name": "Auth",
             "description": "Token Generator",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#definitions/Token"
+              "$ref": "#definitions/Auth"
             }
           }
         ],
@@ -74,7 +67,7 @@
           "200": {
             "description": "new Token is created",
             "schema": {
-              "$ref": "#definitions/Token"
+              "$ref": "#definitions/Auth"
             }
           }
         }
@@ -112,7 +105,7 @@
         }
       }
     },
-    "Token": {
+    "Auth": {
       "required": ["email", "password"],
       "properties": {
         "email": {

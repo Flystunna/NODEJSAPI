@@ -1,0 +1,114 @@
+2021-01-11T08:19:44.707Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:19:47.320Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:19:47 +0000] "GET /user/getprofile HTTP/1.1" 403 45 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:24:13.280Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:24:21.496Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:24:25.225Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:24:25 +0000] "GET /user/getprofile HTTP/1.1" 401 40 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:24:39.686Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:24:39 +0000] "POST /auth/login HTTP/1.1" 200 303 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:25:29.397Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:30:26.008Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:30:28.662Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:30:33.357Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:30:40.014Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:30:45.587Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:30:45 +0000] "POST /auth/login HTTP/1.1" 200 354 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:31:37.929Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:39.974Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:42.861Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:45.084Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:46.853Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:48.931Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:31:50.315Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:31:50 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:32:16.917Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:32:16 +0000] "GET /user/getprofile HTTP/1.1" 500 56 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:32:54.789Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:32:57.959Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:33:00.059Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:41:44.066Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:41:50.394Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:41:50 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:42:00.340Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:42:00 +0000] "GET /user/getprofile HTTP/1.1" 500 56 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:44:10.684Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:44:15.823Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:44:26.040Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:47:28.254Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:47:45.675Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:03.252Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:04.937Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:06.931Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:12.238Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:15.509Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:28.037Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:29.954Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:48:39.496Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:49:08.840Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:49:18.277Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:49:21.859Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:49:35.705Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:49:55.879Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:51:33.043Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:51:33 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:51:54.241Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:51:54 +0000] "GET /user/getprofile HTTP/1.1" 500 56 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:53:39.435Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:53:39 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:54:58.511Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:54:58 +0000] "GET /user/getprofile HTTP/1.1" 500 56 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:55:34.827Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:55:34 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:58:43.068Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:59:00.477Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:59:00 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:59:15.280Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:59:15 +0000] "GET /user/getprofile HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:59:39.460Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:59:39 +0000] "GET /user/getprofile HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T08:59:48.283Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T08:59:53.185Z [32minfo[39m : 	::1 - - [11/Jan/2021:08:59:53 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:00:15.814Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:00:15 +0000] "GET /user/getprofile HTTP/1.1" 200 54 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:06:41.879Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:09:52.284Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:09:52 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:10:10.567Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:10:10 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:16:36.230Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:20:32.126Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:20:36.689Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:20:36 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:22:31.012Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:25:17.024Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:26:33.678Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:26:33 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:27:52.885Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:28:02.291Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:28:02 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:31:11.930Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:31:18.061Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:31:18 +0000] "GET /user/getprofile HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:38:16.381Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:38:29.951Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:38:29 +0000] "GET /user/getprofile HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:39:09.567Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:39:09 +0000] "GET /user/getprofile HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:46:59.893Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:47:08.111Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:47:08 +0000] "GET /user/getprofile HTTP/1.1" 500 56 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:47:16.833Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:47:16 +0000] "POST /auth/login HTTP/1.1" 200 349 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:49:35.023Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:50:39.810Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:52:03.285Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:52:04.921Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:52:04 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:52:29.071Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:52:31.007Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:52:31 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+
+2021-01-11T09:53:43.695Z [32minfo[39m : 	Server is running on Port: 7000
+2021-01-11T09:53:49.531Z [32minfo[39m : 	::1 - - [11/Jan/2021:09:53:49 +0000] "GET /user/getprofile HTTP/1.1" 200 304 "-" "PostmanRuntime/7.15.0"
+

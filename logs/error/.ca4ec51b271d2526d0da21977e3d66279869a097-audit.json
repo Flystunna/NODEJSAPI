@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 5
+    },
+    "auditLog": "C:\\Users\\RY\\Desktop\\Repos\\NODEJSAPI\\logs\\error\\.ca4ec51b271d2526d0da21977e3d66279869a097-audit.json",
+    "files": [
+        {
+            "date": 1610353184161,
+            "name": "C:\\Users\\RY\\Desktop\\Repos\\NODEJSAPI\\logs\\error\\json.2021-01-11",
+            "hash": "f43c5540507f6c1d19f797022273b9d7"
+        }
+    ]
+}
